@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kasir - Login</title>
+    <style>
+        /* CSS tetap sama seperti sebelumnya */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 20px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+        
+        .date-display {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .mode-btn:not(.active) {
+            background: #e0e0e0;
+            color: #666;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: #2ecc71;
+        }
+        
+        .btn-success:hover {
+            background: #27ae60;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .btn-warning {
+            background: #f39c12;
+        }
+        
+        .btn-warning:hover {
+            background: #d35400;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .summary-item h3 {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .summary-item p {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .total-sales {
+            color: #2ecc71;
+        }
+        
+        .total-transactions {
+            color: #3498db;
+        }
+        
+        .average-transaction {
+            color: #9b59b6;
+        }
+        
+        .receipt {
+            background: white;
+            border: 1px dashed #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .receipt-header, .receipt-footer {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .receipt-items {
+            margin: 15px 0;
+        }
+        
+        .receipt-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-total {
+            border-top: 1px dashed #333;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .product-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .login-logo h1 {
+            color: #3498db;
+            font-size: 28px;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .role-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .role-btn.active {
+            border-color: #3498db;
+            background: #3498db;
+            color: white;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: #27ae60;
+        }
+        
+        .demo-accounts {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .demo-accounts h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .demo-account {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <h1>Kasir skaga</h1>
+                <p>koperasi siswa</p>
+            </div>
+            
+            <h2>Silakan Login</h2>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            
+            <div class="role-selector">
+                <button class="role-btn active" data-role="kasir">Kasir</button>
+                <button class="role-btn" data-role="admin">Admin</button>
+            </div>
+            
+            <button id="loginBtn" class="login-btn">Login</button>
+            
+            <div class="demo-accounts">
+                <h3>Akun Demo:</h3>
+                <div class="demo-account"><strong>Kasir:</strong> user / user123</div>
+                <div class="demo-account"><strong>Admin:</strong> admin / admin123</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Application (hidden by default) -->
+    <div id="appPage" class="container hidden">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Sistem Kasir koperasi skaga</h1>
+                </div>
+                <div class="date-display" id="currentDate"></div>
+                <div class="user-info">
+                    <span id="userRoleDisplay">Kasir</span>
+                    <button id="logoutBtn" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="mode-selector">
+            <button class="mode-btn active" id="kasirMode">Mode Kasir</button>
+            <button class="mode-btn" id="adminMode">Mode Admin</button>
+        </div>
+        
+        <!-- Mode Kasir -->
+        <div id="kasirContent">
+            <div class="main-content">
+                <div class="left-column">
+                    <div class="card">
+                        <h2>Input Transaksi</h2>
+                        <div class="form-group">
+                            <label for="productSelect">Pilih Produk</label>
+                            <select id="productSelect">
+                                <option value="">-- Pilih Produk --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productQuantity">Jumlah</label>
+                            <input type="number" id="productQuantity" value="1" min="1">
+                        </div>
+                        <button id="addItem" class="btn-success">Tambah Item</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>Ringkasan Penjualan Hari Ini</h2>
+                        <div class="summary">
+                            <div class="summary-item">
+                                <h3>Total Penjualan</h3>
+                                <p class="total-sales" id="totalSales"></p>
+                            </div>
+                            <div class="summary-item">
+                                <h3>Total Transaksi</h3>
+                                <p class="total-transactions" id="totalTransactions"></p>
+                            </div>
+                            <div class="summary-item">
+                                <h3>Rata-rata/Transaksi</h3>
+                                <p class="average-transaction" id="averageTransaction"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>Aksi</h2>
+                        <button id="completeTransaction" class="btn-success">Selesaikan Transaksi</button>
+                        <button id="resetTransaction" class="btn-danger" style="margin-top: 10px; width: 100%;">Reset Transaksi</button>
+                    </div>
+                </div>
+                
+                <div class="right-column">
+                    <div class="card">
+                        <h2>Keranjang Belanja</h2>
+                        <table id="cartTable">
+                            <thead>
+                                <tr>
+                                    <th>Produk</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartItems">
+                                <!-- Items akan ditambahkan di sini -->
+                            </tbody>
+                        </table>
+                        <div class="receipt" id="receipt">
+                            <div class="receipt-header">
+                                <h3>KOPERASI SMKN 3 JEMBER</h3>
+                            </div>
+                            <div id="receiptContent">
+                                <p>Belum ada transaksi</p>
+                            </div>
+                            <div class="receipt-footer">
+                                <p>Terima kasih atas kunjungan Anda</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>Laporan Penjualan Hari Ini</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesItems">
+                                <!-- Data penjualan akan ditambahkan di sini -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mode Admin -->
+        <div id="adminContent" class="hidden">
+            <div class="main-content">
+                <div class="left-column">
+                    <div class="card">
+                        <h2>Kelola Produk</h2>
+                        <div class="form-group">
+                            <label for="productId">ID Produk (Auto)</label>
+                            <input type="text" id="productId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="productNameAdmin">Nama Produk</label>
+                            <input type="text" id="productNameAdmin" placeholder="Masukkan nama produk">
+                        </div>
+                        <div class="form-group">
+                            <label for="productPriceAdmin">Harga (Rp)</label>
+                            <input type="number" id="productPriceAdmin" placeholder="Masukkan harga">
+                        </div>
+                        <div class="form-group">
+                            <label for="productStockAdmin">Stok</label>
+                            <input type="number" id="productStockAdmin" placeholder="Masukkan stok">
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Kategori</label>
+                            <select id="productCategory">
+                                <option value="makanan">Makanan</option>
+                                <option value="minuman">Minuman</option>
+                                <option value="perlengkapan">Perlengkapan</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <button id="saveProduct" class="btn-success">Simpan Produk</button>
+                        <button id="newProduct" class="btn-warning" style="margin-top: 10px; width: 100%;">Produk Baru</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>Statistik Produk</h2>
+                        <div class="summary">
+                            <div class="summary-item">
+                                <h3>Total Produk</h3>
+                                <p class="total-sales" id="totalProducts">0</p>
+                            </div>
+                            <div class="summary-item">
+                                <h3>Stok Rendah</h3>
+                                <p class="total-transactions" id="lowStock">0</p>
+                            </div>
+                            <div class="summary-item">
+                                <h3>Stok Habis</h3>
+                                <p class="average-transaction" id="outOfStock">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="right-column">
+                    <div class="card">
+                        <h2>Daftar Produk</h2>
+                        <div class="product-list">
+                            <table id="productsTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
+                                        <th>Stok</th>
+                                        <th>Kategori</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsList">
+                                    <!-- Daftar produk akan ditambahkan di sini -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>Laporan Penjualan</h2>
+                        <div class="form-group">
+                            <label for="reportDate">Pilih Tanggal</label>
+                            <input type="date" id="reportDate">
+                        </div>
+                        <button id="generateReport" class="btn-success">Generate Laporan</button>
+                        
+                        <div id="reportSummary" class="summary" style="margin-top: 20px;">
+                            <div class="summary-item">
+                                <h3>Total Penjualan</h3>
+                                <p class="total-sales" id="reportTotalSales">Rp 0</p>
+                            </div>
+                            <div class="summary-item">
+                                <h3>Total Transaksi</h3>
+                                <p class="total-transactions" id="reportTotalTransactions">0</p>
+                            </div>
+                            <div class="summary-item">
+                                <h3>Produk Terlaris</h3>
+                                <p class="average-transaction" id="bestSeller">-</p>
+                            </div>
+                        </div>
+                        
+                        <table id="reportTable" style="margin-top: 20px;">
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportItems">
+                                <!-- Data laporan akan ditambahkan di sini -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data untuk simulasi
+        let cart = [];
+        let salesHistory = [];
+        let products = [
+            { id: 1, name: "air", price: 500, stock: 50, category: "minuman" },
+            { id: 2, name: "donat", price: 2500, stock: 30, category: "makanan" },
+            { id: 3, name: "sabun", price: 12000, stock: 40, category: "perlengkapan" },
+            { id: 4, name: "Teh Botol", price: 5000, stock: 60, category: "minuman" },
+        ];
+        let dailySales = {
+            total: 0,
+            transactions: 0,
+            average: 0
+        };
+        let nextProductId = 5;
+        let editingProductId = null;
+        let currentUser = null;
+        let currentRole = 'kasir';
+
+        // Data user untuk login
+        const users = {
+            'user': { password: 'user123', role: 'kasir' },
+            'admin': { password: 'admin123', role: 'admin' }
+        };
+
+        // Format angka ke Rupiah
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Update tanggal saat ini
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('id-ID', options);
+        }
+
+        // Login functionality
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Harap isi username dan password!');
+                return;
+            }
+            
+            // Check credentials
+            if (users[username] && users[username].password === password) {
+                // Check if selected role matches user's role
+                if (users[username].role !== currentRole) {
+                    alert(`Akun ini hanya dapat login sebagai ${users[username].role === 'admin' ? 'Admin' : 'Kasir'}!`);
+                    return;
+                }
+                
+                currentUser = username;
+                document.getElementById('userRoleDisplay').textContent = 
+                    currentRole === 'admin' ? 'Admin' : 'Kasir';
+                
+                // Show main application
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('appPage').classList.remove('hidden');
+                
+                // Initialize based on role
+                if (currentRole === 'admin') {
+                    document.getElementById('adminMode').click();
+                } else {
+                    document.getElementById('kasirMode').click();
+                }
+                
+                initializeApp();
+            } else {
+                alert('Username atau password salah!');
+            }
+        });
+
+        // Role selector in login
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentRole = this.getAttribute('data-role');
+            });
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                currentUser = null;
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                document.getElementById('appPage').classList.add('hidden');
+                document.getElementById('loginPage').classList.remove('hidden');
+            }
+        });
+
+        // Mode selector
+        document.getElementById('kasirMode').addEventListener('click', function() {
+            if (currentRole !== 'kasir') {
+                alert('Anda tidak memiliki akses ke mode Kasir!');
+                return;
+            }
+            
+            document.getElementById('kasirContent').classList.remove('hidden');
+            document.getElementById('adminContent').classList.add('hidden');
+            document.getElementById('kasirMode').classList.add('active');
+            document.getElementById('adminMode').classList.remove('active');
+        });
+
+        document.getElementById('adminMode').addEventListener('click', function() {
+            if (currentRole !== 'admin') {
+                alert('Anda tidak memiliki akses ke mode Admin!');
+                return;
+            }
+            
+            document.getElementById('adminContent').classList.remove('hidden');
+            document.getElementById('kasirContent').classList.add('hidden');
+            document.getElementById('adminMode').classList.add('active');
+            document.getElementById('kasirMode').classList.remove('active');
+        });
+
+        // Initialize application
+        function initializeApp() {
+            updateCurrentDate();
+            updateDailySummary();
+            populateProductSelect();
+            updateProductsList();
+            
+            // Tambahkan beberapa data penjualan contoh
+            salesHistory = [
+                { time: '2023-10-01 08:15:23', product: 'Beras 5kg', quantity: 2, total: 120000 },
+                { time: '2023-10-01 09:45:12', product: 'Minyak Goreng 2L', quantity: 3, total: 75000 },
+                { time: '2023-10-01 10:30:45', product: 'Gula Pasir 1kg', quantity: 5, total: 60000 }
+            ];
+            
+            dailySales.total = 255000;
+            dailySales.transactions = 3;
+            dailySales.average = 85000;
+            
+            updateSalesDisplay();
+            updateDailySummary();
+            
+            // Set default report date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('reportDate').value = today;
+        }
+
+        // Populate product select in kasir mode
+        function populateProductSelect() {
+            const productSelect = document.getElementById('productSelect');
+            productSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
+            
+            products.forEach(product => {
+                if (product.stock > 0) {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = `${product.name} - ${formatRupiah(product.price)} (Stok: ${product.stock})`;
+                    productSelect.appendChild(option);
+                }
+            });
+        }
+
+        // Update products list in admin mode
+        function updateProductsList() {
+            const productsList = document.getElementById('productsList');
+            productsList.innerHTML = '';
+            
+            let totalProducts = 0;
+            let lowStock = 0;
+            let outOfStock = 0;
+            
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${formatRupiah(product.price)}</td>
+                    <td>${product.stock}</td>
+                    <td>${product.category}</td>
+                    <td class="action-buttons">
+                        <button onclick="editProduct(${product.id})" class="btn-warning">Edit</button>
+                        <button onclick="deleteProduct(${product.id})" class="btn-danger">Hapus</button>
+                    </td>
+                `;
+                productsList.appendChild(row);
+                
+                totalProducts++;
+                if (product.stock < 10 && product.stock > 0) lowStock++;
+                if (product.stock === 0) outOfStock++;
+            });
+            
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('lowStock').textContent = lowStock;
+            document.getElementById('outOfStock').textContent = outOfStock;
+        }
+
+        // Edit product
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                document.getElementById('productId').value = product.id;
+                document.getElementById('productNameAdmin').value = product.name;
+                document.getElementById('productPriceAdmin').value = product.price;
+                document.getElementById('productStockAdmin').value = product.stock;
+                document.getElementById('productCategory').value = product.category;
+                editingProductId = id;
+            }
+        }
+
+        // Delete product
+        function deleteProduct(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                products = products.filter(p => p.id !== id);
+                updateProductsList();
+                populateProductSelect();
+                
+                // Reset form jika produk yang sedang diedit dihapus
+                if (editingProductId === id) {
+                    resetProductForm();
+                }
+            }
+        }
+
+        // Reset product form
+        function resetProductForm() {
+            document.getElementById('productId').value = '';
+            document.getElementById('productNameAdmin').value = '';
+            document.getElementById('productPriceAdmin').value = '';
+            document.getElementById('productStockAdmin').value = '';
+            document.getElementById('productCategory').value = 'makanan';
+            editingProductId = null;
+        }
+
+        // Save product
+        document.getElementById('saveProduct').addEventListener('click', function() {
+            const name = document.getElementById('productNameAdmin').value;
+            const price = parseInt(document.getElementById('productPriceAdmin').value);
+            const stock = parseInt(document.getElementById('productStockAdmin').value);
+            const category = document.getElementById('productCategory').value;
+            
+            if (!name || !price || price <= 0 || stock < 0) {
+                alert('Harap isi semua field dengan benar!');
+                return;
+            }
+            
+            if (editingProductId) {
+                // Update existing product
+                const productIndex = products.findIndex(p => p.id === editingProductId);
+                if (productIndex !== -1) {
+                    products[productIndex].name = name;
+                    products[productIndex].price = price;
+                    products[productIndex].stock = stock;
+                    products[productIndex].category = category;
+                }
+            } else {
+                // Add new product
+                products.push({
+                    id: nextProductId++,
+                    name: name,
+                    price: price,
+                    stock: stock,
+                    category: category
+                });
+            }
+            
+            updateProductsList();
+            populateProductSelect();
+            resetProductForm();
+            
+            alert('Produk berhasil disimpan!');
+        });
+
+        // New product button
+        document.getElementById('newProduct').addEventListener('click', resetProductForm);
+
+        // Tambah item ke keranjang
+        document.getElementById('addItem').addEventListener('click', function() {
+            const productId = parseInt(document.getElementById('productSelect').value);
+            const productQuantity = parseInt(document.getElementById('productQuantity').value);
+            
+            if (!productId || productQuantity <= 0) {
+                alert('Harap pilih produk dan masukkan jumlah yang valid!');
+                return;
+            }
+            
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) {
+                alert('Produk tidak ditemukan!');
+                return;
+            }
+            
+            if (product.stock < productQuantity) {
+                alert(`Stok tidak mencukupi! Stok tersedia: ${product.stock}`);
+                return;
+            }
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                if (product.stock < existingItem.quantity + productQuantity) {
+                    alert(`Stok tidak mencukupi! Stok tersedia: ${product.stock}`);
+                    return;
+                }
+                existingItem.quantity += productQuantity;
+                existingItem.subtotal = existingItem.price * existingItem.quantity;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: productQuantity,
+                    subtotal: product.price * productQuantity
+                });
+            }
+            
+            updateCartDisplay();
+            document.getElementById('productQuantity').value = 1;
+        });
+
+        // Hapus item dari keranjang
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        // Update tampilan keranjang
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${formatRupiah(item.price)}</td>
+                    <td>${item.quantity}</td>
+                    <td>${formatRupiah(item.subtotal)}</td>
+                    <td><button onclick="removeItem(${index})" class="btn-danger">Hapus</button></td>
+                `;
+                cartItems.appendChild(row);
+                total += item.subtotal;
+            });
+            
+            // Update total di keranjang
+            if (cart.length > 0) {
+                const totalRow = document.createElement('tr');
+                totalRow.innerHTML = `
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Total:</td>
+                    <td style="font-weight: bold;">${formatRupiah(total)}</td>
+                    <td></td>
+                `;
+                cartItems.appendChild(totalRow);
+            }
+            
+            updateReceipt(total);
+        }
+
+        // Update struk
+        function updateReceipt(total) {
+            const receiptContent = document.getElementById('receiptContent');
+            receiptContent.innerHTML = '';
+            
+            if (cart.length === 0) {
+                receiptContent.innerHTML = '<p>Belum ada transaksi</p>';
+                return;
+            }
+            
+            const receiptHeader = document.createElement('div');
+            receiptHeader.innerHTML = `
+                <div class="receipt-line">
+                    <span>${new Date().toLocaleDateString('id-ID')}</span>
+                    <span>${new Date().toLocaleTimeString('id-ID')}</span>
+                </div>
+                <div class="receipt-line">
+                    <span>Kasir: ${currentUser}</span>
+                </div>
+                <hr>
+            `;
+            receiptContent.appendChild(receiptHeader);
+            
+            const receiptItems = document.createElement('div');
+            receiptItems.className = 'receipt-items';
+            
+            cart.forEach(item => {
+                const itemLine = document.createElement('div');
+                itemLine.className = 'receipt-line';
+                itemLine.innerHTML = `
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>${formatRupiah(item.subtotal)}</span>
+                `;
+                receiptItems.appendChild(itemLine);
+            });
+            
+            receiptContent.appendChild(receiptItems);
+            
+            const receiptTotal = document.createElement('div');
+            receiptTotal.className = 'receipt-total receipt-line';
+            receiptTotal.innerHTML = `
+                <span>TOTAL</span>
+                <span>${formatRupiah(total)}</span>
+            `;
+            receiptContent.appendChild(receiptTotal);
+        }
+
+        // Selesaikan transaksi
+        document.getElementById('completeTransaction').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja kosong!');
+                return;
+            }
+            
+            const transactionTotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
+            const transactionTime = new Date().toLocaleString('id-ID');
+            
+            // Update stok produk dan tambahkan ke riwayat penjualan
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    product.stock -= item.quantity;
+                }
+                
+                salesHistory.push({
+                    time: transactionTime,
+                    product: item.name,
+                    quantity: item.quantity,
+                    total: item.subtotal
+                });
+            });
+            
+            // Update statistik harian
+            dailySales.total += transactionTotal;
+            dailySales.transactions += 1;
+            dailySales.average = dailySales.total / dailySales.transactions;
+            
+            updateSalesDisplay();
+            updateDailySummary();
+            populateProductSelect();
+            updateProductsList();
+            
+            // Reset keranjang
+            cart = [];
+            updateCartDisplay();
+            
+            alert(`Transaksi berhasil! Total: ${formatRupiah(transactionTotal)}`);
+        });
+
+        // Reset transaksi
+        document.getElementById('resetTransaction').addEventListener('click', function() {
+            if (confirm('Apakah Anda yakin ingin mereset transaksi saat ini?')) {
+                cart = [];
+                updateCartDisplay();
+            }
+        });
+
+        // Update tampilan penjualan
+        function updateSalesDisplay() {
+            const salesItems = document.getElementById('salesItems');
+            salesItems.innerHTML = '';
+            
+            salesHistory.forEach(sale => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sale.time}</td>
+                    <td>${sale.product}</td>
+                    <td>${sale.quantity}</td>
+                    <td>${formatRupiah(sale.total)}</td>
+                `;
+                salesItems.appendChild(row);
+            });
+        }
+
+        // Update ringkasan harian
+        function updateDailySummary() {
+            document.getElementById('totalSales').textContent = formatRupiah(dailySales.total);
+            document.getElementById('totalTransactions').textContent = dailySales.transactions;
+            document.getElementById('averageTransaction').textContent = formatRupiah(dailySales.average);
+        }
+
+        // Generate report
+        document.getElementById('generateReport').addEventListener('click', function() {
+            const reportDate = document.getElementById('reportDate').value;
+            if (!reportDate) {
+                alert('Harap pilih tanggal terlebih dahulu!');
+                return;
+            }
+            
+            // Filter sales history by date
+            const filteredSales = salesHistory.filter(sale => {
+                const saleDate = new Date(sale.time).toISOString().split('T')[0];
+                return saleDate === reportDate;
+            });
+            
+            const reportItems = document.getElementById('reportItems');
+            reportItems.innerHTML = '';
+            
+            let reportTotal = 0;
+            let reportTransactions = 0;
+            let productSales = {};
+            
+            filteredSales.forEach(sale => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sale.time.split(' ')[1]}</td>
+                    <td>${sale.product}</td>
+                    <td>${sale.quantity}</td>
+                    <td>${formatRupiah(sale.total)}</td>
+                `;
+                reportItems.appendChild(row);
+                
+                reportTotal += sale.total;
+                reportTransactions++;
+                
+                // Count product sales for best seller
+                if (productSales[sale.product]) {
+                    productSales[sale.product] += sale.quantity;
+                } else {
+                    productSales[sale.product] = sale.quantity;
+                }
+            });
+            
+            // Find best seller
+            let bestSeller = '-';
+            let maxSales = 0;
+            for (const product in productSales) {
+                if (productSales[product] > maxSales) {
+                    maxSales = productSales[product];
+                    bestSeller = product;
+                }
+            }
+            
+            // Update report summary
+            document.getElementById('reportTotalSales').textContent = formatRupiah(reportTotal);
+            document.getElementById('reportTotalTransactions').textContent = reportTransactions;
+            document.getElementById('bestSeller').textContent = bestSeller;
+        });
+    </script>
+</body>
+</html>
